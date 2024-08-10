@@ -1,22 +1,22 @@
-# our base image
-FROM alpine:3.5
+# Use the slimmer base image similar to the first Dockerfile
+FROM python:3.9-slim-buster
 
-# Install python and pip
-RUN apk add --update py2-pip
+# Set the working directory
+WORKDIR /usr/src/app
 
-# upgrade pip
-RUN pip install --upgrade pip
-
-# install Python modules needed by the Python app
+# Copy requirements file and install dependencies
 COPY requirements.txt /usr/src/app/
-RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# copy files required for the app to run
+# Copy application files and templates
 COPY app.py /usr/src/app/
-COPY templates/index.html /usr/src/app/templates/
+COPY templates /usr/src/app/templates/
 
-# tell the port number the container should expose
+# Expose port
 EXPOSE 5000
 
-# run the application
-CMD ["python", "/usr/src/app/app.py"]
+# Set environment variable for Flask
+ENV FLASK_APP=app.py
+
+# Run the application
+CMD ["flask", "run", "--host", "0.0.0.0"]
