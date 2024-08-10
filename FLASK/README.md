@@ -2,10 +2,10 @@
 
 * build the image
 ```
-docker build -t <YOUR_USERNAME>/flaskapp .
+docker build -t myflaskapp .
 ```
 
 * run the container
 ```
-docker run -p 8888:5000 --name flaskapp YOUR_USERNAME/flaskapp
+docker run -p 8080:5000 myflaskapp
 ```
